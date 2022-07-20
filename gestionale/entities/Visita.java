@@ -1,5 +1,7 @@
 package gestionale.entities;
 
+import org.json.JSONObject;
+
 public class Visita extends Attivita {
 
     private Guida guida;
@@ -18,5 +20,14 @@ public class Visita extends Attivita {
     }
     public void setDurata(String durata) {
         this.durata = durata;
+    }
+
+    @Override
+    public JSONObject toJsonObjFinale() {
+        JSONObject visitaJson = toJsonObj();
+        visitaJson.put("tipoAttivita", "Visita");
+        visitaJson.put("Dipendente", guida);
+        visitaJson.put("Durata", durata);
+        return visitaJson;
     }
 }
