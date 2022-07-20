@@ -1,1 +1,1 @@
-[{"Mail":"mailPiero","Username":"Piero","Password":"passwordPiero"},{"Mail":"mailGigio","Username":"Gigio","Password":"passwordGigio"}]
+[{"Mail":"mailPiero","tipoUtente":"Guida","Username":"Piero","Password":"passwordPiero"},{"Mail":"mailGigio","tipoUtente":"Cliente","Username":"Gigio","Password":"passwordGigio"}]

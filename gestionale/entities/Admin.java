@@ -1,5 +1,7 @@
 package gestionale.entities;
 
+import org.json.simple.JSONObject;
+
 public class Admin {
     
     private String username = "Admin";
@@ -31,5 +33,14 @@ public class Admin {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public JSONObject toJsonObj() {
+        JSONObject utenteJson = new JSONObject();
+        utenteJson.put("Username", username);
+        utenteJson.put("Mail", mail);
+        utenteJson.put("Password", password);
+        utenteJson.put("tipoUtente", "Admin");
+        return utenteJson;
     }
 }

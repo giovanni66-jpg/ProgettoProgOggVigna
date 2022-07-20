@@ -12,7 +12,8 @@ import javax.xml.catalog.Catalog;
 
 import gestionale.entities.*;
 
-import org.json.simple.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -84,12 +85,94 @@ public class GestioneFile {
         }
     }
 
-    public void leggiFileUtenti(){
+    public List<Utente> leggiFileUtenti(){
+        List<Utente> utenti = new ArrayList<>();
         JSONParser parser = new JSONParser();
         try {
-            JSONObject object = (JSONObject) parser.parse(new FileReader(PATH_UTENTI));
-            System.out.println(object);
-        } catch (IOException | ParseException e) {
+            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_UTENTI));
+            for (int i = 0; i < array.length(); i++){
+                JSONObject object = array.getJSONObject(i);
+                switch(object.getString("tipoUtente")){
+                    case("Cliente") : {
+                        Cliente cliente = new Cliente();
+                        cliente.parseJson(object);
+                        utenti.add(cliente);
+                    }
+                    break;
+                    case("Guida") : {
+                        Guida guida = new Guida();
+                        guida.parseJson(object);
+                        utenti.add(guida);
+                    }
+                    break;
+                    case("Somelier") : {
+                        Somelier somelier = new Somelier();
+                        somelier.parseJson(object);
+                        utenti.add(somelier);
+                    }
+                    break;
+                }
+            }
+        } catch (IOException io) {
+            creaFileUtenti();
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+        return utenti;
+    }
+
+    public void leggiFileAttivita(){
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_ATTIVITA));
+            for (Object object : array) {
+                System.out.println("l'oggetto in questione è:... ");
+                System.out.println(object);
+            }
+        } catch (IOException io) {
+            creaFileAttivita();
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void leggiFilePrenotazioni(){
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_PRENOTAZIONI));
+            for (Object object : array) {
+                System.out.println("l'oggetto in questione è:... ");
+                System.out.println(object);
+            }
+        } catch (IOException io) {
+            creaFilePrenotazioni();
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void leggiFileUtentiAttivita(){
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_UTENTI_ATTIVITA));
+            for (Object object : array) {
+                System.out.println("l'oggetto in questione è:... ");
+                System.out.println(object);
+            }
+        } catch (IOException io) {
+            creaFileUtentiAttivita();
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void leggiFileTurniLavorativi(){
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_TURNI_LAVORATIVI));
+        } catch (IOException io) {
+            creaFileTurniLavorativi();
+        } catch(ParseException e){
             e.printStackTrace();
         }
     }
@@ -97,9 +180,9 @@ public class GestioneFile {
     public void scriviFileUtenti(List<Utente> utenti){
         JSONArray utentiListJSON = new JSONArray();
         for (Utente utente : utenti) {
-            utentiListJSON.add(utente.toJsonObj());
+            utentiListJSON.put(utente.toJsonObjFinale());
         }
-        String text = utentiListJSON.toJSONString();
+        String text = utentiListJSON.toString();
 
         try (FileWriter file = new FileWriter(PATH_UTENTI)) {
             file.write(text);
