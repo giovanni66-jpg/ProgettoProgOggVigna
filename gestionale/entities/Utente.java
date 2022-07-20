@@ -1,6 +1,8 @@
 package gestionale.entities;
 
-abstract class Utente {
+import org.json.simple.JSONObject;
+
+public abstract class Utente {
     private String username;
     private String password;
     private String mail;
@@ -22,6 +24,14 @@ abstract class Utente {
     }
     public void setMail(String mail) {
         this.mail = mail;
+    }
+    
+    public JSONObject toJsonObj() {
+        JSONObject utenteJson = new JSONObject();
+        utenteJson.put("Username", username);
+        utenteJson.put("Mail", mail);
+        utenteJson.put("Password", password);
+        return utenteJson;
     }
 
     
