@@ -39,3 +39,5 @@
 
  I pagamenti vengono gestiti in modo implicito (se un cliente è presente durante un'attività si intende cha ha pagato)
 
+# UTILIZZO DEL PROGRAMMA
+Per poter utilizzare il programma è necessario installare le dipendenze per l'utilizzo dei file JSON. Per comodità queste sono state aggiunte al progetto sotto forma di file jar. 
