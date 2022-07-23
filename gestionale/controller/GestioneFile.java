@@ -1,5 +1,6 @@
 package gestionale.controller;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,11 +20,11 @@ public class GestioneFile {
     
     private static volatile GestioneFile instance = null;
 
-    private String PATH_UTENTI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/Utenti.json";
-    private String PATH_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/Attivita.json";
-    private String PATH_PRENOTAZIONI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/Prenotazioni.json";
-    private String PATH_UTENTI_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/UtentiAttivita.json";
-    private String PATH_TURNI_LAVORATIVI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/TurniLavorativi.json";
+    private String PATH_UTENTI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Utenti.json";
+    private String PATH_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Attivita.json";
+    private String PATH_PRENOTAZIONI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Prenotazioni.json";
+    private String PATH_UTENTI_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/UtentiAttivita.json";
+    private String PATH_TURNI_LAVORATIVI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/TurniLavorativi.json";
 
     private GestioneFile(){}
 
@@ -238,7 +239,8 @@ public class GestioneFile {
             file.write(text);
             file.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            creaFileUtenti();
+            System.out.println("Fanculo");
         }
     }
 

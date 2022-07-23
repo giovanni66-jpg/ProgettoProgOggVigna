@@ -10,7 +10,7 @@ import gestionale.entities.Utente;
 
 public class Main {
     public static void main(String[] args){
-        /* List<Utente> utenti = new ArrayList<>();
+        List<Utente> utenti = new ArrayList<>();
         Guida guida = new Guida();
         guida.setUsername("Piero");
         guida.setMail("mailPiero");
@@ -20,7 +20,8 @@ public class Main {
         cliente.setMail("mailGigio");
         cliente.setPassword("passwordGigio");
         utenti.add(guida);
-        utenti.add(cliente); */
+        utenti.add(cliente);
+        GestioneFile.getInstance().scriviFileUtenti(utenti);
         GestioneFile.getInstance().leggiFileUtenti();
     }
 }
