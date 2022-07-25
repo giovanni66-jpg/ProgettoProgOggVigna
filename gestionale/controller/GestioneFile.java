@@ -1,7 +1,6 @@
 package gestionale.controller;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,6 +114,7 @@ public class GestioneFile {
                     }
                 }
             }
+            scanner.close();
         } catch (IOException io) {
             creaFileUtenti();
         }
@@ -146,6 +146,7 @@ public class GestioneFile {
                     }
                 }
             }
+            scanner.close();
         } catch (IOException io) {
             creaFileAttivita();
         }
@@ -172,6 +173,7 @@ public class GestioneFile {
                     }
                 }
             }
+            scanner.close();
         } catch (IOException io) {
             creaFilePrenotazioni();
         }
@@ -198,6 +200,7 @@ public class GestioneFile {
                     }
                 }
             }
+            scanner.close();
         } catch (IOException io) {
             creaFileUtentiAttivita();
         }
@@ -224,6 +227,7 @@ public class GestioneFile {
                     }
                 }
             }
+            scanner.close();
         } catch (IOException io) {
             creaFileTurniLavorativi();
         }
