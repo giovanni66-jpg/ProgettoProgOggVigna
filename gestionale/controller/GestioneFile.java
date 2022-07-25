@@ -1,23 +1,22 @@
 package gestionale.controller;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Map.Entry;
 
 import gestionale.entities.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class GestioneFile {
-    
+
     private static volatile GestioneFile instance = null;
 
     private String PATH_UTENTI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Utenti.json";
@@ -26,12 +25,13 @@ public class GestioneFile {
     private String PATH_UTENTI_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/UtentiAttivita.json";
     private String PATH_TURNI_LAVORATIVI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/TurniLavorativi.json";
 
-    private GestioneFile(){}
+    private GestioneFile() {
+    }
 
-    public static synchronized GestioneFile getInstance(){
-        if(instance == null){
-            synchronized(GestioneFile.class){
-                if(instance==null){
+    public static synchronized GestioneFile getInstance() {
+        if (instance == null) {
+            synchronized (GestioneFile.class) {
+                if (instance == null) {
                     instance = new GestioneFile();
                 }
             }
@@ -39,7 +39,7 @@ public class GestioneFile {
         return instance;
     }
 
-    public void creaFileUtenti(){
+    public void creaFileUtenti() {
         try (FileWriter file = new FileWriter(PATH_UTENTI)) {
             file.write("");
             file.close();
@@ -48,7 +48,7 @@ public class GestioneFile {
         }
     }
 
-    public void creaFileAttivita(){
+    public void creaFileAttivita() {
         try (FileWriter file = new FileWriter(PATH_ATTIVITA)) {
             file.write("");
             file.close();
@@ -57,7 +57,7 @@ public class GestioneFile {
         }
     }
 
-    public void creaFilePrenotazioni(){
+    public void creaFilePrenotazioni() {
         try (FileWriter file = new FileWriter(PATH_PRENOTAZIONI)) {
             file.write("");
             file.close();
@@ -66,7 +66,7 @@ public class GestioneFile {
         }
     }
 
-    public void creaFileUtentiAttivita(){
+    public void creaFileUtentiAttivita() {
         try (FileWriter file = new FileWriter(PATH_UTENTI_ATTIVITA)) {
             file.write("");
             file.close();
@@ -75,7 +75,7 @@ public class GestioneFile {
         }
     }
 
-    public void creaFileTurniLavorativi(){
+    public void creaFileTurniLavorativi() {
         try (FileWriter file = new FileWriter(PATH_TURNI_LAVORATIVI)) {
             file.write("");
             file.close();
@@ -84,85 +84,89 @@ public class GestioneFile {
         }
     }
 
-    public List<Utente> leggiFileUtenti(){
+    public List<Utente> leggiFileUtenti() {
         List<Utente> utenti = new ArrayList<>();
-        JSONParser parser = new JSONParser();
         try {
-            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_UTENTI));
-            for (int i = 0; i < array.length(); i++){
-                JSONObject object = array.getJSONObject(i);
-                switch(object.getString("tipoUtente")){
-                    case("Cliente") : {
-                        Cliente cliente = new Cliente();
-                        cliente.parseJson(object);
-                        utenti.add(cliente);
+            File file = new File(PATH_UTENTI);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                JSONArray array = new JSONArray(scanner.nextLine());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    switch (object.getString("tipoUtente")) {
+                        case ("Cliente"): {
+                            Cliente cliente = new Cliente();
+                            cliente.parseJson(object);
+                            utenti.add(cliente);
+                        }
+                            break;
+                        case ("Guida"): {
+                            Guida guida = new Guida();
+                            guida.parseJson(object);
+                            utenti.add(guida);
+                        }
+                            break;
+                        case ("Somelier"): {
+                            Somelier somelier = new Somelier();
+                            somelier.parseJson(object);
+                            utenti.add(somelier);
+                        }
+                            break;
                     }
-                    break;
-                    case("Guida") : {
-                        Guida guida = new Guida();
-                        guida.parseJson(object);
-                        utenti.add(guida);
-                    }
-                    break;
-                    case("Somelier") : {
-                        Somelier somelier = new Somelier();
-                        somelier.parseJson(object);
-                        utenti.add(somelier);
-                    }
-                    break;
                 }
             }
         } catch (IOException io) {
             creaFileUtenti();
-        } catch(ParseException e){
-            e.printStackTrace();
         }
         return utenti;
     }
 
-    public List<Attivita> leggiFileAttivita(List<Cliente> clienti){
+    public List<Attivita> leggiFileAttivita(List<Cliente> clienti) {
         List<Attivita> attivita = new ArrayList<>();
-        JSONParser parser = new JSONParser();
         try {
-            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_ATTIVITA));
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                switch(object.getString("tipoAttivita")){
-                    case("Degustazione") : {
-                        Degustazione degustazione = new Degustazione();
-                        degustazione.parseJson(object, clienti);
-                        attivita.add(degustazione);
+            File file = new File(PATH_UTENTI);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                JSONArray array = new JSONArray(scanner.nextLine());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    switch (object.getString("tipoAttivita")) {
+                        case ("Degustazione"): {
+                            Degustazione degustazione = new Degustazione();
+                            degustazione.parseJson(object, clienti);
+                            attivita.add(degustazione);
+                        }
+                            break;
+                        case ("Visita"): {
+                            Visita visita = new Visita();
+                            visita.parseJson(object, clienti);
+                            attivita.add(visita);
+                        }
+                            break;
                     }
-                    break;
-                    case("Visita") : {
-                        Visita visita = new Visita();
-                        visita.parseJson(object, clienti);
-                        attivita.add(visita);
-                    }
-                    break;
                 }
             }
         } catch (IOException io) {
             creaFileAttivita();
-        } catch(ParseException e){
-            e.printStackTrace();
         }
         return attivita;
     }
 
-    public HashMap<Attivita, Cliente> leggiFilePrenotazioni(List<Cliente> clienti, List<Attivita> attivita){
+    public HashMap<Attivita, Cliente> leggiFilePrenotazioni(List<Cliente> clienti, List<Attivita> attivita) {
         HashMap<Attivita, Cliente> prenotazioni = new HashMap<>();
-        JSONParser parser = new JSONParser();
         try {
-            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_PRENOTAZIONI));
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                for (Cliente cliente : clienti) {
-                    if(cliente.getUsername().equals(object.getString("Username"))){
-                        for (Attivita attivitina : attivita) {
-                            if(attivitina.getCodice() == 
-                                    Integer.parseInt(object.getString("CodiceAttivita"))){
-                                prenotazioni.put(attivitina, cliente);
+            File file = new File(PATH_UTENTI);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                JSONArray array = new JSONArray(scanner.nextLine());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    for (Cliente cliente : clienti) {
+                        if (cliente.getUsername().equals(object.getString("Username"))) {
+                            for (Attivita attivitina : attivita) {
+                                if (attivitina.getCodice() == Integer.parseInt(object.getString("CodiceAttivita"))) {
+                                    prenotazioni.put(attivitina, cliente);
+                                }
                             }
                         }
                     }
@@ -170,25 +174,25 @@ public class GestioneFile {
             }
         } catch (IOException io) {
             creaFilePrenotazioni();
-        } catch(ParseException e){
-            e.printStackTrace();
         }
         return prenotazioni;
     }
 
-    public HashMap<Attivita, Cliente> leggiFileUtentiAttivita(List<Cliente> clienti, List<Attivita> attivita){
+    public HashMap<Attivita, Cliente> leggiFileUtentiAttivita(List<Cliente> clienti, List<Attivita> attivita) {
         HashMap<Attivita, Cliente> attivitaPassate = new HashMap<>();
-        JSONParser parser = new JSONParser();
         try {
-            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_UTENTI_ATTIVITA));
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                for (Cliente cliente : clienti) {
-                    if(cliente.getUsername().equals(object.getString("Username"))){
-                        for (Attivita attivitina : attivita) {
-                            if(attivitina.getCodice() == 
-                                    Integer.parseInt(object.getString("CodiceAttivita"))){
-                                attivitaPassate.put(attivitina, cliente);
+            File file = new File(PATH_UTENTI);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                JSONArray array = new JSONArray(scanner.nextLine());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    for (Cliente cliente : clienti) {
+                        if (cliente.getUsername().equals(object.getString("Username"))) {
+                            for (Attivita attivitina : attivita) {
+                                if (attivitina.getCodice() == Integer.parseInt(object.getString("CodiceAttivita"))) {
+                                    attivitaPassate.put(attivitina, cliente);
+                                }
                             }
                         }
                     }
@@ -196,25 +200,25 @@ public class GestioneFile {
             }
         } catch (IOException io) {
             creaFileUtentiAttivita();
-        } catch(ParseException e){
-            e.printStackTrace();
         }
         return attivitaPassate;
     }
 
-    public HashMap<Attivita, Utente> leggiFileTurniLavorativi(List<Utente> utenti, List<Attivita> attivita){
+    public HashMap<Attivita, Utente> leggiFileTurniLavorativi(List<Utente> utenti, List<Attivita> attivita) {
         HashMap<Attivita, Utente> turni = new HashMap<>();
-        JSONParser parser = new JSONParser();
         try {
-            JSONArray array = (JSONArray) parser.parse(new FileReader(PATH_TURNI_LAVORATIVI));
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                for (Utente utente : utenti) {
-                    if(utente.getUsername().equals(object.getString("Username"))){
-                        for (Attivita attivitina : attivita) {
-                            if(attivitina.getCodice() == 
-                                    Integer.parseInt(object.getString("CodiceAttivita"))){
-                                        turni.put(attivitina, utente);
+            File file = new File(PATH_UTENTI);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                JSONArray array = new JSONArray(scanner.nextLine());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    for (Utente utente : utenti) {
+                        if (utente.getUsername().equals(object.getString("Username"))) {
+                            for (Attivita attivitina : attivita) {
+                                if (attivitina.getCodice() == Integer.parseInt(object.getString("CodiceAttivita"))) {
+                                    turni.put(attivitina, utente);
+                                }
                             }
                         }
                     }
@@ -222,13 +226,11 @@ public class GestioneFile {
             }
         } catch (IOException io) {
             creaFileTurniLavorativi();
-        } catch(ParseException e){
-            e.printStackTrace();
         }
         return turni;
     }
 
-    public void scriviFileUtenti(List<Utente> utenti){
+    public void scriviFileUtenti(List<Utente> utenti) {
         JSONArray utentiListJSON = new JSONArray();
         for (Utente utente : utenti) {
             utentiListJSON.put(utente.toJsonObjFinale());
@@ -244,7 +246,7 @@ public class GestioneFile {
         }
     }
 
-    public void scriviFileAttivita(List<Attivita> attivita){
+    public void scriviFileAttivita(List<Attivita> attivita) {
         JSONArray attivitaListJSON = new JSONArray();
         for (Attivita attivita2 : attivita) {
             attivitaListJSON.put(attivita2.toJsonObjFinale());
@@ -259,7 +261,7 @@ public class GestioneFile {
         }
     }
 
-    public void scriviFilePrenotazioni(HashMap<Attivita, Cliente> prenotazioni){
+    public void scriviFilePrenotazioni(HashMap<Attivita, Cliente> prenotazioni) {
         JSONArray prenotazioniListJSON = new JSONArray();
         for (Entry<Attivita, Cliente> item : prenotazioni.entrySet()) {
             JSONObject object = new JSONObject();
@@ -277,7 +279,7 @@ public class GestioneFile {
         }
     }
 
-    public void scriviFileUtentiAttivita(HashMap<Attivita, Cliente> attivitaPassate){
+    public void scriviFileUtentiAttivita(HashMap<Attivita, Cliente> attivitaPassate) {
         JSONArray attivitaPassateListJSON = new JSONArray();
         for (Entry<Attivita, Cliente> item : attivitaPassate.entrySet()) {
             JSONObject object = new JSONObject();
@@ -295,7 +297,7 @@ public class GestioneFile {
         }
     }
 
-    public void scriviFileUtentiTurni(HashMap<Attivita, Cliente> turni){
+    public void scriviFileUtentiTurni(HashMap<Attivita, Cliente> turni) {
         JSONArray turniListJSON = new JSONArray();
         for (Entry<Attivita, Cliente> item : turni.entrySet()) {
             JSONObject object = new JSONObject();
