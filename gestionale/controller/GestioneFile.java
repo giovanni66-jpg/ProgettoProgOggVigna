@@ -124,7 +124,7 @@ public class GestioneFile {
     public List<Attivita> leggiFileAttivita(List<Cliente> clienti) {
         List<Attivita> attivita = new ArrayList<>();
         try {
-            File file = new File(PATH_UTENTI);
+            File file = new File(PATH_ATTIVITA);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 JSONArray array = new JSONArray(scanner.nextLine());
@@ -156,7 +156,7 @@ public class GestioneFile {
     public HashMap<Attivita, Cliente> leggiFilePrenotazioni(List<Cliente> clienti, List<Attivita> attivita) {
         HashMap<Attivita, Cliente> prenotazioni = new HashMap<>();
         try {
-            File file = new File(PATH_UTENTI);
+            File file = new File(PATH_PRENOTAZIONI);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 JSONArray array = new JSONArray(scanner.nextLine());
@@ -183,7 +183,7 @@ public class GestioneFile {
     public HashMap<Attivita, Cliente> leggiFileUtentiAttivita(List<Cliente> clienti, List<Attivita> attivita) {
         HashMap<Attivita, Cliente> attivitaPassate = new HashMap<>();
         try {
-            File file = new File(PATH_UTENTI);
+            File file = new File(PATH_UTENTI_ATTIVITA);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 JSONArray array = new JSONArray(scanner.nextLine());
@@ -210,7 +210,7 @@ public class GestioneFile {
     public HashMap<Attivita, Utente> leggiFileTurniLavorativi(List<Utente> utenti, List<Attivita> attivita) {
         HashMap<Attivita, Utente> turni = new HashMap<>();
         try {
-            File file = new File(PATH_UTENTI);
+            File file = new File(PATH_TURNI_LAVORATIVI);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 JSONArray array = new JSONArray(scanner.nextLine());
