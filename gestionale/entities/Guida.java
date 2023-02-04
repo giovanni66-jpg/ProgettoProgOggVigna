@@ -2,7 +2,7 @@ package gestionale.entities;
 
 import org.json.JSONObject;
 
-public class Guida extends Utente {
+public class Guida extends Utente{
 
     public Guida(){}
 

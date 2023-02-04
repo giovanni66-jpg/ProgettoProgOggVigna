@@ -5,7 +5,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Degustazione extends Attivita{
+public class Degustazione extends Attivita {
 
     private Somelier somelier;
     private List<String> listaVini;

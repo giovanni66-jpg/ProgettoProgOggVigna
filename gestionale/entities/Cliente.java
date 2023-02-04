@@ -2,7 +2,7 @@ package gestionale.entities;
 
 import org.json.JSONObject;
 
-public class Cliente extends Utente{
+public class Cliente extends Utente {
     
     public Cliente(){
     }

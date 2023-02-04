@@ -2,7 +2,7 @@ package gestionale.entities;
 
 import org.json.JSONObject;
 
-public class Visita extends Attivita {
+public class Visita extends Attivita{
 
     private Guida guida;
     private String durata;
