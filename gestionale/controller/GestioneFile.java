@@ -18,11 +18,11 @@ public class GestioneFile {
 
     private static volatile GestioneFile instance = null;
 
-    private String PATH_UTENTI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Utenti.json";
-    private String PATH_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Attivita.json";
-    private String PATH_PRENOTAZIONI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/Prenotazioni.json";
-    private String PATH_UTENTI_ATTIVITA = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/UtentiAttivita.json";
-    private String PATH_TURNI_LAVORATIVI = "/Users/pieromarraffa/Documents/GitHub/ProgettoProgOggVigna/fileApp/TurniLavorativi.json";
+    private String PATH_UTENTI = "/Users/pieromarraffa/Documents/Documenti - MacBook Pro di Piero - 1/GitHub/ProgettoProgOggVigna/fileApp/Utenti.json";
+    private String PATH_ATTIVITA = "/Users/pieromarraffa/Documents/Documenti - MacBook Pro di Piero - 1/GitHub/ProgettoProgOggVigna/fileApp/Attivita.json";
+    private String PATH_PRENOTAZIONI = "/Users/pieromarraffa/Documents/Documenti - MacBook Pro di Piero - 1/GitHub/ProgettoProgOggVigna/fileApp/Prenotazioni.json";
+    private String PATH_UTENTI_ATTIVITA = "/Users/pieromarraffa/Documents/Documenti - MacBook Pro di Piero - 1/GitHub/ProgettoProgOggVigna/fileApp/UtentiAttivita.json";
+    private String PATH_TURNI_LAVORATIVI = "/Users/pieromarraffa/Documents/Documenti - MacBook Pro di Piero - 1/GitHub/ProgettoProgOggVigna/fileApp/TurniLavorativi.json";
 
     private GestioneFile() {
     }
@@ -83,6 +83,13 @@ public class GestioneFile {
         }
     }
 
+    /*
+     * 1) prendiamo il file a partire dal PATH
+     * 2) mettiamo il file in uno scanner
+     * 3) prendiamo tutti gli elementi e li mettiamo in un array. Tramite il comando .nextLine() prendiamo il contenuto della riga e lo 
+     *      splittiamo in coincidenza dei "line separator" che in questo caso sono la virgola. Qundi in ogni posizione dell'array
+     *      avremo un oggetto
+     */
     public List<Utente> leggiFileUtenti() {
         List<Utente> utenti = new ArrayList<>();
         try {
@@ -90,6 +97,7 @@ public class GestioneFile {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 JSONArray array = new JSONArray(scanner.nextLine());
+                System.out.println("Array: " + array.toString());
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
                     switch (object.getString("tipoUtente")) {
@@ -246,7 +254,6 @@ public class GestioneFile {
             file.close();
         } catch (IOException e) {
             creaFileUtenti();
-            System.out.println("Fanculo");
         }
     }
 
